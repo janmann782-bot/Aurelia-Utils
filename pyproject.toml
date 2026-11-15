@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aurelia-utils"
+version = "0.1.0"
+description = "Telegram-only white-and-blue world map generator"
+requires-python = ">=3.12"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["aurelia_utils*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["large: full-size 8K/16K generation"]

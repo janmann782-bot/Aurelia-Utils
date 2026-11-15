@@ -1,0 +1,5 @@
+aiogram==3.32.0
+numpy==2.3.5
+Pillow==12.1.1
+scipy==1.17.0
+python-dotenv==1.2.1

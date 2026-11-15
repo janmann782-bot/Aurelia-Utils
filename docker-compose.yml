@@ -1,0 +1,42 @@
+services:
+  bot:
+    build: .
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+    command: python -m aurelia_utils.bot
+    restart: unless-stopped
+    init: true
+    mem_limit: 256m
+    cpus: 0.5
+    volumes:
+      - aurelia_data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+  worker:
+    build: .
+    environment:
+      DATA_DIR: /app/data
+      USER_STORAGE_MB: ${USER_STORAGE_MB:-256}
+      TOTAL_STORAGE_MB: ${TOTAL_STORAGE_MB:-2048}
+      JOB_TIMEOUT_SECONDS: ${JOB_TIMEOUT_SECONDS:-600}
+    command: python -m aurelia_utils.worker
+    restart: unless-stopped
+    init: true
+    mem_limit: 1g
+    cpus: 1.5
+    stop_grace_period: 30s
+    volumes:
+      - aurelia_data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+volumes:
+  aurelia_data:
